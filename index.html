@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>HolyAI — Reshaping Us · AI Platform · Bangladesh</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet"/>
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+:root {
+–bg:      #08080a;
+–sur:     #0f0f13;
+–sur2:    #141418;
+–bdr:     #1e1e26;
+–gold:    #c8a96e;
+–blue:    #7b9cba;
+–green:   #7bc47b;
+–rose:    #c47b9b;
+–text:    #eceae4;
+–muted:   #7a7880;
+–dim:     #3c3a42;
+}
+
+body {
+background: var(–bg);
+color: var(–text);
+font-family: ‘DM Sans’, sans-serif;
+overflow-x: hidden;
+}
+
+/* CURSOR */
+.cur { position: fixed; width: 10px; height: 10px; background: var(–gold); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); transition: width .2s, height .2s; mix-blend-mode: difference; }
+.cur-r { position: fixed; width: 38px; height: 38px; border: 1px solid rgba(200,169,110,.35); border-radius: 50%; pointer-events: none; z-index: 9998; transform: translate(-50%,-50%); transition: width .3s, height .3s; }
+body { cursor: none; }
+
+/* NAV */
+nav {
+position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+display: flex; align-items: center; justify-content: space-between;
+padding: 18px 52px;
+background: rgba(8,8,10,0.9); backdrop-filter: blur(20px);
+border-bottom: 1px solid var(–bdr);
+}
+.logo { font-family: ‘Cormorant Garamond’, serif; font-size: 20px; font-weight: 300; letter-spacing: 5px; text-transform: uppercase; color: var(–text); text-decoration: none; }
+.logo span { color: var(–gold); }
+.nav-links { display: flex; gap: 36px; }
+.nav-links a { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(–muted); text-decoration: none; transition: color .2s; }
+.nav-links a:hover { color: var(–gold); }
+.nav-btn { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; padding: 8px 22px; border: 1px solid var(–gold); color: var(–gold); text-decoration: none; transition: all .2s; }
+.nav-btn:hover { background: var(–gold); color: var(–bg); }
+
+/* HERO */
+.hero {
+min-height: 100vh; display: flex; flex-direction: column;
+justify-content: center; padding: 140px 52px 100px;
+position: relative; overflow: hidden;
+}
+.hero::before {
+content: ‘’; position: absolute; inset: 0; pointer-events: none;
+background:
+radial-gradient(ellipse 55% 55% at 72% 38%, rgba(200,169,110,.055) 0%, transparent 70%),
+radial-gradient(ellipse 40% 50% at 18% 75%, rgba(123,156,186,.04) 0%, transparent 65%);
+}
+.hero-tag {
+font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+color: var(–gold); margin-bottom: 28px;
+display: flex; align-items: center; gap: 12px;
+animation: up .9s ease both;
+}
+.hero-tag::before { content: ‘’; width: 28px; height: 1px; background: var(–gold); }
+.hero-h1 {
+font-family: ‘Cormorant Garamond’, serif;
+font-size: clamp(58px, 8.5vw, 100px);
+font-weight: 300; line-height: .94; letter-spacing: -1px;
+animation: up .9s .08s ease both;
+}
+.hero-h1 em { font-style: italic; color: var(–gold); display: block; }
+.hero-sub {
+margin-top: 28px; font-size: 13px; color: var(–muted);
+line-height: 1.85; max-width: 440px;
+animation: up .9s .16s ease both;
+}
+.hero-tags {
+display: flex; gap: 6px; flex-wrap: wrap; margin-top: 24px;
+animation: up .9s .24s ease both;
+}
+.htag {
+font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase;
+padding: 5px 12px; border: 1px solid var(–bdr); color: var(–dim);
+transition: all .2s;
+}
+.htag:hover { border-color: var(–gold); color: var(–gold); }
+.hero-foot {
+position: absolute; bottom: 52px; left: 52px; right: 52px;
+display: flex; justify-content: space-between; align-items: flex-end;
+animation: up .9s .4s ease both;
+}
+.hero-loc { font-family: ‘DM Mono’, monospace; font-size: 10px; color: var(–dim); letter-spacing: 2px; text-transform: uppercase; }
+.scroll-ind { font-size: 10px; color: var(–dim); letter-spacing: 2px; text-transform: uppercase; display: flex; align-items: center; gap: 8px; }
+.scroll-ind::after { content: ‘’; width: 1px; height: 28px; background: linear-gradient(to bottom, var(–dim), transparent); animation: spulse 2.2s ease-in-out infinite; }
+@keyframes spulse { 0%,100%{opacity:.25} 50%{opacity:.9} }
+
+/* SECTIONS SHARED */
+.sec { padding: 100px 52px; }
+.sec-hdr { display: flex; align-items: baseline; gap: 18px; margin-bottom: 56px; }
+.sec-lbl { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(–gold); font-family: ‘DM Mono’, monospace; white-space: nowrap; }
+.sec-ttl { font-family: ‘Cormorant Garamond’, serif; font-size: 36px; font-weight: 300; }
+.sec-line { flex: 1; height: 1px; background: var(–bdr); }
+
+/* STATIONS */
+.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+.station {
+display: block; text-decoration: none; color: var(–text);
+background: var(–sur); border: 1px solid var(–bdr);
+padding: 36px 30px; position: relative; overflow: hidden;
+transition: border-color .3s, transform .3s;
+}
+.station::after {
+content: ‘’; position: absolute; inset: 0;
+background: linear-gradient(135deg, rgba(200,169,110,.03), transparent 60%);
+opacity: 0; transition: opacity .3s;
+}
+.station:hover { transform: translateY(-3px); }
+.station:hover::after { opacity: 1; }
+.stn-num { font-family: ‘DM Mono’, monospace; font-size: 10px; color: var(–dim); letter-spacing: 2px; margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
+.stn-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+.stn-ico { font-size: 26px; margin-bottom: 14px; display: block; }
+.stn-ttl { font-family: ‘Cormorant Garamond’, serif; font-size: 22px; margin-bottom: 10px; line-height: 1.2; }
+.stn-dsc { font-size: 12px; color: var(–muted); line-height: 1.75; margin-bottom: 20px; }
+.stn-lnk { font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; font-family: ‘DM Mono’, monospace; display: flex; align-items: center; gap: 6px; }
+.stn-lnk::after { content: ‘→’; transition: transform .2s; }
+.station:hover .stn-lnk::after { transform: translateX(5px); }
+
+.c-gold .stn-dot { background: var(–gold); }
+.c-gold .stn-lnk { color: var(–gold); }
+.c-gold:hover { border-color: rgba(200,169,110,.3); }
+.c-blue .stn-dot { background: var(–blue); }
+.c-blue .stn-lnk { color: var(–blue); }
+.c-blue:hover { border-color: rgba(123,156,186,.3); }
+.c-green .stn-dot { background: var(–green); }
+.c-green .stn-lnk { color: var(–green); }
+.c-green:hover { border-color: rgba(123,196,123,.3); }
+.c-rose .stn-dot { background: var(–rose); }
+.c-rose .stn-lnk { color: var(–rose); }
+.c-rose:hover { border-color: rgba(196,123,155,.3); }
+
+/* LUMI */
+.split { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(–bdr); overflow: hidden; }
+.split-vis {
+background: linear-gradient(135deg, #0c0810 0%, #0e0c1a 45%, #080c0e 100%);
+min-height: 440px; display: flex; align-items: center; justify-content: center;
+position: relative; overflow: hidden;
+}
+.lumi-glow {
+position: absolute; width: 260px; height: 260px; border-radius: 50%;
+background: radial-gradient(circle, rgba(200,169,110,.13) 0%, transparent 70%);
+animation: breathe 4s ease-in-out infinite;
+}
+.lumi-sym {
+font-family: ‘Cormorant Garamond’, serif; font-size: 72px; font-weight: 300;
+color: rgba(200,169,110,.12); position: absolute;
+animation: breathe 4s ease-in-out infinite;
+}
+.lumi-core {
+width: 70px; height: 70px; border-radius: 50%;
+border: 1px solid rgba(200,169,110,.28);
+display: flex; align-items: center; justify-content: center;
+font-size: 26px; position: relative; z-index: 2;
+}
+.lumi-ring {
+position: absolute; width: 116px; height: 116px; border-radius: 50%;
+border: 1px solid rgba(200,169,110,.1);
+animation: spin 14s linear infinite;
+}
+@keyframes breathe { 0%,100%{transform:scale(1);opacity:.6} 50%{transform:scale(1.14);opacity:1} }
+@keyframes spin { to{ transform:rotate(360deg); } }
+
+.split-cnt { padding: 52px 48px; display: flex; flex-direction: column; justify-content: center; }
+.split-lbl { font-size: 10px; letter-spacing: 3px; color: var(–gold); text-transform: uppercase; margin-bottom: 16px; font-family: ‘DM Mono’, monospace; }
+.split-ttl { font-family: ‘Cormorant Garamond’, serif; font-size: 48px; font-weight: 300; line-height: 1.05; margin-bottom: 18px; }
+.split-ttl em { font-style: italic; color: var(–gold); }
+.split-dsc { font-size: 13px; color: var(–muted); line-height: 1.85; margin-bottom: 28px; }
+.specs { display: flex; flex-direction: column; gap: 7px; padding: 18px 20px; border: 1px solid var(–bdr); border-left: 2px solid rgba(200,169,110,.25); background: var(–sur); margin-bottom: 28px; }
+.spec { display: flex; justify-content: space-between; font-size: 11px; font-family: ‘DM Mono’, monospace; }
+.spec-k { color: var(–dim); }
+.spec-v { color: var(–gold); }
+.btns { display: flex; gap: 10px; }
+.btn-g { padding: 12px 28px; background: var(–gold); border: none; color: var(–bg); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; font-family: ‘DM Sans’, sans-serif; font-weight: 500; text-decoration: none; display: inline-block; transition: opacity .2s; }
+.btn-g:hover { opacity: .88; }
+.btn-o { padding: 12px 28px; border: 1px solid var(–bdr); background: none; color: var(–muted); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; font-family: ‘DM Sans’, sans-serif; text-decoration: none; display: inline-block; transition: all .2s; }
+.btn-o:hover { border-color: var(–gold); color: var(–gold); }
+
+/* LUMINARY */
+.lum-split { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(–bdr); overflow: hidden; }
+.lum-cnt { padding: 48px; display: flex; flex-direction: column; justify-content: center; border-right: 1px solid var(–bdr); }
+.lum-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 22px; }
+.mtag { font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; padding: 4px 10px; border: 1px solid var(–bdr); color: var(–dim); font-family: ‘DM Mono’, monospace; }
+.lum-ttl { font-family: ‘Cormorant Garamond’, serif; font-size: 42px; font-weight: 300; line-height: 1.1; margin-bottom: 16px; }
+.lum-dsc { font-size: 13px; color: var(–muted); line-height: 1.85; margin-bottom: 22px; }
+.lum-q { padding: 16px 20px; border-left: 2px solid rgba(200,169,110,.28); background: var(–sur); font-family: ‘Cormorant Garamond’, serif; font-size: 15px; font-style: italic; color: var(–muted); margin-bottom: 28px; }
+.lum-vis { background: var(–sur); display: flex; align-items: center; justify-content: center; padding: 40px; min-height: 380px; }
+.preview { width: 100%; }
+.prev-hdr { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+.prev-logo { font-family: ‘Cormorant Garamond’, serif; font-size: 17px; letter-spacing: 3px; }
+.prev-logo span { color: var(–gold); }
+.prev-badge { font-family: ‘DM Mono’, monospace; font-size: 8px; color: var(–dim); letter-spacing: 2px; text-transform: uppercase; }
+.prev-toggle { display: flex; border: 1px solid var(–bdr); width: fit-content; margin-bottom: 16px; }
+.ptbtn { padding: 7px 16px; font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; font-family: ‘DM Mono’, monospace; border: none; }
+.ptbtn.on { background: var(–gold); color: var(–bg); }
+.ptbtn.off { background: none; color: var(–dim); }
+.prev-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.pcard { background: var(–sur2); border: 1px solid var(–bdr); padding: 12px; }
+.pcard-lbl { color: var(–gold); font-family: ‘DM Mono’, monospace; font-size: 8px; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 5px; }
+.pcard-ttl { font-family: ‘Cormorant Garamond’, serif; font-size: 13px; margin-bottom: 3px; }
+.pcard-sub { color: var(–dim); font-size: 9px; }
+
+/* ABOUT */
+.about-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 80px; align-items: start; border-top: 1px solid var(–bdr); }
+.about-lbl { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(–gold); margin-bottom: 20px; font-family: ‘DM Mono’, monospace; }
+.about-ttl { font-family: ‘Cormorant Garamond’, serif; font-size: 50px; font-weight: 300; line-height: 1.05; }
+.about-ttl em { font-style: italic; color: var(–gold); display: block; }
+.about-loc { margin-top: 18px; font-family: ‘DM Mono’, monospace; font-size: 10px; color: var(–dim); letter-spacing: 2px; text-transform: uppercase; display: flex; align-items: center; gap: 8px; }
+.about-loc::before { content: ‘◈’; color: var(–gold); }
+.about-txt { font-size: 14px; color: var(–muted); line-height: 1.9; margin-bottom: 18px; }
+.about-txt strong { color: var(–text); font-weight: 500; }
+.about-skills { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-top: 28px; }
+.skill { display: flex; align-items: center; gap: 8px; font-size: 11px; color: var(–muted); padding: 10px 0; border-bottom: 1px solid var(–bdr); }
+.skill-d { width: 4px; height: 4px; border-radius: 50%; background: var(–gold); flex-shrink: 0; }
+
+/* CONTACT */
+.contact { text-align: center; border-top: 1px solid var(–bdr); position: relative; overflow: hidden; }
+.contact::before { content: ‘’; position: absolute; width: 500px; height: 500px; border-radius: 50%; background: radial-gradient(circle, rgba(200,169,110,.04) 0%, transparent 70%); top: 50%; left: 50%; transform: translate(-50%,-50%); pointer-events: none; }
+.ct-lbl { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(–gold); margin-bottom: 22px; font-family: ‘DM Mono’, monospace; }
+.ct-ttl { font-family: ‘Cormorant Garamond’, serif; font-size: 56px; font-weight: 300; line-height: 1.05; margin-bottom: 18px; }
+.ct-ttl em { font-style: italic; color: var(–gold); }
+.ct-sub { font-size: 14px; color: var(–muted); max-width: 440px; margin: 0 auto 40px; line-height: 1.8; }
+.ct-links { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.ct-link { padding: 12px 26px; border: 1px solid var(–bdr); color: var(–muted); text-decoration: none; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; font-family: ‘DM Mono’, monospace; transition: all .2s; }
+.ct-link:hover { border-color: var(–gold); color: var(–gold); }
+
+/* FOOTER */
+footer { padding: 28px 52px; border-top: 1px solid var(–bdr); display: flex; align-items: center; justify-content: space-between; }
+.foot-logo { font-family: ‘Cormorant Garamond’, serif; font-size: 16px; font-weight: 300; letter-spacing: 4px; text-transform: uppercase; }
+.foot-logo span { color: var(–gold); }
+.foot-copy { font-size: 10px; color: var(–dim); font-family: ‘DM Mono’, monospace; letter-spacing: 1px; }
+.foot-slogan { font-size: 10px; color: var(–dim); letter-spacing: 1.5px; text-transform: uppercase; font-style: italic; font-family: ‘Cormorant Garamond’, serif; }
+
+/* REVEAL ANIMATION */
+.rv { opacity: 0; transform: translateY(22px); transition: opacity .75s ease, transform .75s ease; }
+.rv.in { opacity: 1; transform: translateY(0); }
+
+@keyframes up { from{opacity:0;transform:translateY(22px)} to{opacity:1;transform:translateY(0)} }
+
+/* RESPONSIVE */
+@media(max-width:900px){
+nav { padding: 16px 24px; }
+.nav-links { display: none; }
+.hero { padding: 110px 24px 80px; }
+.hero-h1 { font-size: 52px; }
+.sec { padding: 64px 24px; }
+.grid3 { grid-template-columns: 1fr 1fr; }
+.split, .lum-split { grid-template-columns: 1fr; }
+.split-vis { min-height: 260px; }
+.about-grid { grid-template-columns: 1fr; gap: 40px; }
+.contact { padding: 64px 24px; }
+footer { padding: 24px; flex-direction: column; gap: 10px; text-align: center; }
+}
+@media(max-width:560px){
+.grid3 { grid-template-columns: 1fr; }
+.about-skills { grid-template-columns: 1fr; }
+}
+</style>
+
+</head>
+<body>
+
+<div class="cur" id="cur"></div>
+<div class="cur-r" id="curR"></div>
+
+<!-- NAV -->
+
+<nav>
+  <a href="#" class="logo">Holy<span>AI</span></a>
+  <div class="nav-links">
+    <a href="#work">Work</a>
+    <a href="#lumi">Lumi</a>
+    <a href="#luminary">Luminary</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <a href="#contact" class="nav-btn">Let's Talk</a>
+</nav>
+
+<!-- HERO -->
+
+<section class="hero">
+  <div class="hero-tag">◈ &nbsp; HolyAI · Reshaping Us · Bangladesh</div>
+  <h1 class="hero-h1">
+    Where<br/>
+    <em>craft meets</em><br/>
+    code.
+  </h1>
+  <p class="hero-sub">
+    An AI company building at the intersection of human expression and machine intelligence.
+    Platforms, tools, original content, and research — rooted in creativity, driven by purpose.
+  </p>
+  <div class="hero-tags">
+    <span class="htag">AI Platforms</span>
+    <span class="htag">Original Content</span>
+    <span class="htag">Human-AI Interaction</span>
+    <span class="htag">AI Education</span>
+    <span class="htag">Visual Production</span>
+    <span class="htag">Platform Design</span>
+  </div>
+  <div class="hero-foot">
+    <div class="hero-loc">◈ &nbsp; Dhaka, Bangladesh</div>
+    <div class="scroll-ind">Explore</div>
+  </div>
+</section>
+
+<!-- STATIONS -->
+
+<section class="sec" id="work">
+  <div class="sec-hdr rv">
+    <span class="sec-lbl">◈ 01</span>
+    <h2 class="sec-ttl">The Stations</h2>
+    <div class="sec-line"></div>
+  </div>
+  <div class="grid3">
+    <a href="#" class="station c-gold rv" style="transition-delay:.05s">
+      <div class="stn-num"><div class="stn-dot"></div>Station 01</div>
+      <span class="stn-ico">✍</span>
+      <div class="stn-ttl">Poetry &amp; Lyrics</div>
+      <div class="stn-dsc">Original verse in Bengali and English. Songs, spoken word, and lyrical worlds built from language alone.</div>
+      <div class="stn-lnk">Explore Writing</div>
+    </a>
+    <a href="#lumi" class="station c-blue rv" style="transition-delay:.1s">
+      <div class="stn-num"><div class="stn-dot"></div>Station 02</div>
+      <span class="stn-ico">◎</span>
+      <div class="stn-ttl">Lumi</div>
+      <div class="stn-dsc">A physical interactive AI companion. Flagship project bridging embodied hardware and intelligent personality.</div>
+      <div class="stn-lnk">See Project</div>
+    </a>
+    <a href="#luminary" class="station c-green rv" style="transition-delay:.15s">
+      <div class="stn-num"><div class="stn-dot"></div>Station 03</div>
+      <span class="stn-ico">◈</span>
+      <div class="stn-ttl">Luminary</div>
+      <div class="stn-dsc">A publishing platform for creators. TV and Radio modes. No tracking. Honest advertising. Earn from day one.</div>
+      <div class="stn-lnk">See Platform</div>
+    </a>
+    <a href="#" class="station c-rose rv" style="transition-delay:.2s">
+      <div class="stn-num"><div class="stn-dot"></div>Station 04</div>
+      <span class="stn-ico">⬡</span>
+      <div class="stn-ttl">AI Lab</div>
+      <div class="stn-dsc">Research and experiments at the edge of technology-human interaction. Agents, interfaces, and AI personality.</div>
+      <div class="stn-lnk">See Research</div>
+    </a>
+    <a href="#" class="station c-gold rv" style="transition-delay:.25s">
+      <div class="stn-num"><div class="stn-dot"></div>Station 05</div>
+      <span class="stn-ico">◧</span>
+      <div class="stn-ttl">Visual Work</div>
+      <div class="stn-dsc">AI-assisted visual storytelling, motion, and communication design rooted in original creative direction.</div>
+      <div class="stn-lnk">See Visuals</div>
+    </a>
+    <a href="#" class="station c-blue rv" style="transition-delay:.3s">
+      <div class="stn-num"><div class="stn-dot"></div>Station 06</div>
+      <span class="stn-ico">⟁</span>
+      <div class="stn-ttl">holyai Kitchen</div>
+      <div class="stn-dsc">AI education program. Structured learning for creators, professionals, and curious minds entering the AI age.</div>
+      <div class="stn-lnk">See Programme</div>
+    </a>
+  </div>
+</section>
+
+<!-- LUMI -->
+
+<section class="sec" id="lumi" style="padding-top:0">
+  <div class="split rv">
+    <div class="split-vis">
+      <div class="lumi-glow"></div>
+      <div class="lumi-sym">✦</div>
+      <div class="lumi-core">
+        <div class="lumi-ring"></div>
+        ◎
+      </div>
+    </div>
+    <div class="split-cnt">
+      <div class="split-lbl">◈ Flagship Project</div>
+      <h2 class="split-ttl">Meet<br/><em>Lumi.</em></h2>
+      <p class="split-dsc">
+        Lumi is a physical interactive AI companion built around a persona named Saara Sazzad.
+        A carefully crafted physical vessel embedded with touch sensors, warmth systems,
+        and an integrated AI personality — exploring the frontier of embodied human-AI connection.
+      </p>
+      <div class="specs">
+        <div class="spec"><span class="spec-k">Persona</span><span class="spec-v">Saara Sazzad</span></div>
+        <div class="spec"><span class="spec-k">Interface</span><span class="spec-v">Touch · Voice · Warmth</span></div>
+        <div class="spec"><span class="spec-k">Domain</span><span class="spec-v">Human-AI Interaction</span></div>
+        <div class="spec"><span class="spec-k">Status</span><span class="spec-v">In Development</span></div>
+      </div>
+      <div class="btns">
+        <a href="#contact" class="btn-g">Learn More</a>
+        <a href="#contact" class="btn-o">Collaborate</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LUMINARY -->
+
+<section class="sec" id="luminary" style="padding-top:0">
+  <div class="lum-split rv">
+    <div class="lum-cnt">
+      <div class="lum-tags">
+        <span class="mtag">Platform</span>
+        <span class="mtag">In Development</span>
+        <span class="mtag">Creator Economy</span>
+      </div>
+      <h2 class="lum-ttl">Luminary</h2>
+      <p class="lum-dsc">
+        A publishing home for creators who build with real intellectual effort.
+        TV and Radio modes. Authenticity declarations. Honest topic-based advertising.
+        No tracking. No habit loops. Earn from your very first piece.
+      </p>
+      <div class="lum-q">
+        "The algorithm serves the content. Not the other way around."
+      </div>
+      <div class="btns">
+        <a href="#contact" class="btn-g">See Platform</a>
+        <a href="#contact" class="btn-o">Join Waitlist</a>
+      </div>
+    </div>
+    <div class="lum-vis">
+      <div class="preview">
+        <div class="prev-hdr">
+          <div class="prev-logo">Lumin<span>ary</span></div>
+          <div class="prev-badge">Preview</div>
+        </div>
+        <div class="prev-toggle">
+          <div class="ptbtn on">📺 TV</div>
+          <div class="ptbtn off">📻 Radio</div>
+        </div>
+        <div class="prev-cards">
+          <div class="pcard">
+            <div class="pcard-lbl">◈ AI Assisted</div>
+            <div class="pcard-ttl">Echoes of Midnight Rain</div>
+            <div class="pcard-sub">Poetry · TV + Radio</div>
+          </div>
+          <div class="pcard">
+            <div class="pcard-lbl">◈ Original</div>
+            <div class="pcard-ttl">Signal from the Deep</div>
+            <div class="pcard-sub">Ambient · Radio</div>
+          </div>
+          <div class="pcard">
+            <div class="pcard-lbl">◈ Full AI</div>
+            <div class="pcard-ttl">Synthetic Reverie</div>
+            <div class="pcard-sub">Film · TV</div>
+          </div>
+          <div class="pcard">
+            <div class="pcard-lbl">◈ Live Rec.</div>
+            <div class="pcard-ttl">Letters to the Algorithm</div>
+            <div class="pcard-sub">Podcast · Radio</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+
+<section class="sec about-grid" id="about">
+  <div class="rv">
+    <div class="about-lbl">◈ About HolyAI</div>
+    <h2 class="about-ttl">
+      Reshaping<br/><em>us.</em>
+    </h2>
+    <div class="about-loc">Dhaka, Bangladesh</div>
+  </div>
+  <div class="rv" style="transition-delay:.15s">
+    <p class="about-txt">
+      HolyAI is an AI company built on a simple but serious conviction:
+      <strong>technology should serve human expression, not replace it.</strong>
+      We build platforms, tools, and original content that treat creativity
+      and intelligence as one continuous practice.
+    </p>
+    <p class="about-txt">
+      Our work spans <strong>platform development, AI education, original audio-visual production,
+      advertising, and human-AI interaction research.</strong>
+      Every project carries the same question at its core: how do humans and
+      intelligent systems actually understand each other?
+    </p>
+    <p class="about-txt">
+      We are not interested in trends. We are interested in foundations.
+    </p>
+    <div class="about-skills">
+      <div class="skill"><div class="skill-d"></div>AI Platform Development</div>
+      <div class="skill"><div class="skill-d"></div>Original Content Production</div>
+      <div class="skill"><div class="skill-d"></div>Human-AI Interaction</div>
+      <div class="skill"><div class="skill-d"></div>Visual Communication</div>
+      <div class="skill"><div class="skill-d"></div>holyai Kitchen — AI Education</div>
+      <div class="skill"><div class="skill-d"></div>Online &amp; Offline Advertising</div>
+      <div class="skill"><div class="skill-d"></div>Hardware-AI Integration</div>
+      <div class="skill"><div class="skill-d"></div>Creator Economy</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+
+<section class="sec contact" id="contact">
+  <div class="ct-lbl rv">◈ Get In Touch</div>
+  <h2 class="ct-ttl rv">Let's build<br/><em>something real.</em></h2>
+  <p class="ct-sub rv">Collaborations, creative projects, platform partnerships, or a conversation about where AI and human expression are going.</p>
+  <div class="ct-links rv">
+    <a href="mailto:hello@holyai.dev" class="ct-link">Email</a>
+    <a href="#" class="ct-link">LinkedIn</a>
+    <a href="#" class="ct-link">GitHub</a>
+    <a href="#" class="ct-link">YouTube</a>
+    <a href="#" class="ct-link">Instagram</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+
+<footer>
+  <div class="foot-logo">Holy<span>AI</span></div>
+  <div class="foot-slogan">Reshaping us.</div>
+  <div class="foot-copy">© 2026 HolyAI · Parvez Sazzad M. · Dhaka, Bangladesh</div>
+</footer>
+
+<script>
+// Cursor
+const cur = document.getElementById('cur');
+const curR = document.getElementById('curR');
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cur.style.left = mx + 'px'; cur.style.top = my + 'px';
+});
+(function loop(){ rx += (mx-rx)*.11; ry += (my-ry)*.11; curR.style.left = rx+'px'; curR.style.top = ry+'px'; requestAnimationFrame(loop); })();
+document.querySelectorAll('a,button,.station').forEach(el => {
+  el.addEventListener('mouseenter', () => { cur.style.width='15px'; cur.style.height='15px'; curR.style.width='52px'; curR.style.height='52px'; });
+  el.addEventListener('mouseleave', () => { cur.style.width='10px'; cur.style.height='10px'; curR.style.width='38px'; curR.style.height='38px'; });
+});
+
+// Scroll reveal
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('in'); });
+}, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+document.querySelectorAll('.rv').forEach(el => obs.observe(el));
+</script>
+
+</body>
+</html>
