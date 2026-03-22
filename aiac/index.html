@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light only">
+<title>AIAC — Artificial Intelligence Attribution Certificate | A Global Proposal</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=DM+Mono:wght@400;500&family=Instrument+Sans:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* FORCE LIGHT MODE — overrides iPhone Dark Mode completely */
+:root { color-scheme: light only; }
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  background: #ffffff !important;
+}
+
+body {
+  background: #ffffff !important;
+  color: #111111 !important;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 19px;
+  line-height: 1.85;
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* ======= COVER ======= */
+.cover {
+  min-height: 100vh;
+  background: #f5f5f5 !important;
+  border-bottom: 3px solid #b8860b;
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.cover-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(#dddddd 1px, transparent 1px),
+    linear-gradient(90deg, #dddddd 1px, transparent 1px);
+  background-size: 50px 50px;
+  opacity: 0.4;
+}
+
+.cover-content {
+  position: relative;
+  z-index: 2;
+  padding: 10vh 8vw;
+  width: 100%;
+}
+
+.cover-badge {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 3rem;
+  opacity: 0;
+  animation: fadeUp 0.7s ease 0.2s forwards;
+}
+.cover-badge span {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  color: #7a5200 !important;
+  border: 1px solid #b8860b;
+  padding: 5px 14px;
+  text-transform: uppercase;
+  background: #ffffff !important;
+}
+
+.cover-title {
+  font-size: clamp(3.8rem, 10vw, 9rem);
+  font-weight: 400;
+  line-height: 0.9;
+  color: #111111 !important;
+  letter-spacing: -0.02em;
+  margin-bottom: 2rem;
+  opacity: 0;
+  animation: fadeUp 0.7s ease 0.4s forwards;
+}
+.cover-title em {
+  font-style: italic;
+  color: #7a5200 !important;
+}
+
+.cover-sub {
+  font-size: clamp(1.05rem, 2vw, 1.4rem);
+  font-style: italic;
+  color: #333333 !important;
+  max-width: 600px;
+  line-height: 1.75;
+  margin-bottom: 3rem;
+  opacity: 0;
+  animation: fadeUp 0.7s ease 0.6s forwards;
+}
+
+.cover-meta {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: #444444 !important;
+  line-height: 2.2;
+  opacity: 0;
+  animation: fadeUp 0.7s ease 0.8s forwards;
+}
+.cover-meta strong {
+  color: #7a5200 !important;
+  font-weight: 500;
+}
+
+/* ======= DOCUMENT ======= */
+.document {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 8vh 6vw;
+  background: #ffffff !important;
+}
+
+/* ======= SECTIONS ======= */
+.section {
+  margin-bottom: 6rem;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.section.visible { opacity: 1; transform: translateY(0); }
+
+.sec-label {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  color: #a07200 !important;
+  text-transform: uppercase;
+  margin-bottom: 1.4rem;
+}
+.sec-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: #cccccc;
+}
+
+.sec-title {
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 400;
+  line-height: 1.1;
+  color: #111111 !important;
+  margin-bottom: 2rem;
+}
+.sec-title em {
+  font-style: italic;
+  color: #7a5200 !important;
+}
+
+/* ======= TEXT ======= */
+.lead {
+  font-size: 1.2rem;
+  font-style: italic;
+  color: #222222 !important;
+  margin-bottom: 1.8rem;
+  line-height: 1.8;
+}
+
+p {
+  font-size: 1.05rem;
+  line-height: 1.9;
+  color: #222222 !important;
+  margin-bottom: 1.4rem;
+}
+
+/* ======= PULLQUOTE ======= */
+.pullquote {
+  border-left: 3px solid #b8860b;
+  padding: 1.8rem 2.5rem;
+  margin: 3rem 0;
+  background: #f9f6f0 !important;
+}
+.pullquote p {
+  font-size: 1.5rem;
+  font-style: italic;
+  color: #111111 !important;
+  margin: 0;
+  line-height: 1.6;
+}
+.pullquote cite {
+  display: block;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: #555555 !important;
+  margin-top: 1rem;
+  font-style: normal;
+}
+
+/* ======= HIGHLIGHT BOX ======= */
+.highlight-box {
+  background: #fdf8ee !important;
+  border-left: 4px solid #b8860b;
+  padding: 2rem 2.5rem;
+  margin: 2.5rem 0;
+}
+.highlight-box p {
+  margin: 0;
+  color: #222222 !important;
+}
+
+/* ======= LAYERS ======= */
+.layers {
+  border: 1px solid #dddddd;
+  margin: 3rem 0;
+}
+
+.layer {
+  padding: 2.2rem 2.8rem;
+  border-bottom: 1px solid #dddddd;
+  position: relative;
+  background: #ffffff !important;
+}
+.layer:last-child { border-bottom: none; }
+.layer:hover { background: #fdf8ee !important; }
+
+.layer-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.25em;
+  color: #a07200 !important;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+.layer-name {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #111111 !important;
+  margin-bottom: 0.6rem;
+}
+.layer-desc {
+  font-size: 1rem;
+  line-height: 1.75;
+  color: #222222 !important;
+  margin: 0;
+  max-width: 580px;
+}
+.layer-num {
+  position: absolute;
+  right: 2.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 5rem;
+  font-weight: 400;
+  color: rgba(160,114,0,0.07) !important;
+  line-height: 1;
+  pointer-events: none;
+}
+
+/* ======= TABLE ======= */
+.compare {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 2.5rem 0;
+  background: #ffffff !important;
+}
+.compare thead tr { border-bottom: 2px solid #111111; }
+.compare th {
+  font-family: 'DM Mono', monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #555555 !important;
+  padding: 1rem 1.2rem;
+  text-align: left;
+  font-weight: 400;
+  background: #ffffff !important;
+}
+.compare td {
+  padding: 0.9rem 1.2rem;
+  border-bottom: 1px solid #dddddd;
+  font-size: 0.97rem;
+  line-height: 1.6;
+  color: #222222 !important;
+  vertical-align: top;
+  background: #ffffff !important;
+}
+.compare tr:last-child td { border-bottom: none; }
+.compare td:first-child {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.82rem;
+  color: #555555 !important;
+}
+.compare td.hl {
+  color: #7a5200 !important;
+  font-weight: 600;
+}
+
+/* ======= AIACN BOX ======= */
+.aiacn-box {
+  background: #f9f6f0 !important;
+  border: 1px solid #dddddd;
+  border-left: 4px solid #b8860b;
+  padding: 3rem;
+  margin: 3rem 0;
+}
+.aiacn-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  color: #a07200 !important;
+  text-transform: uppercase;
+  margin-bottom: 1.2rem;
+}
+.aiacn-number {
+  font-family: 'DM Mono', monospace;
+  font-size: clamp(0.78rem, 1.8vw, 1rem);
+  color: #111111 !important;
+  letter-spacing: 0.06em;
+  margin-bottom: 2.5rem;
+  word-break: break-all;
+  line-height: 1.7;
+  background: #ffffff !important;
+  padding: 1rem 1.2rem;
+  border: 1px solid #dddddd;
+}
+.aiacn-fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1.5rem;
+}
+.aiacn-field { border-top: 1px solid #dddddd; padding-top: 0.8rem; }
+.aiacn-field-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: #555555 !important;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.aiacn-field-value {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.88rem;
+  color: #111111 !important;
+  line-height: 1.5;
+}
+
+/* ======= DOORS ======= */
+.doors {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1px;
+  background: #dddddd;
+  border: 1px solid #dddddd;
+  margin: 3rem 0;
+}
+.door {
+  background: #ffffff !important;
+  padding: 2rem;
+}
+.door:hover { background: #fdf8ee !important; }
+.door-tier {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  color: #a07200 !important;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+.door-title {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #111111 !important;
+  margin-bottom: 0.5rem;
+}
+.door-desc {
+  font-size: 0.9rem;
+  color: #333333 !important;
+  line-height: 1.65;
+  margin: 0;
+}
+
+/* ======= AUTHOR ======= */
+.author-block {
+  border-top: 2px solid #111111;
+  padding-top: 3rem;
+  margin-top: 5rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+}
+.author-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.28em;
+  color: #777777 !important;
+  text-transform: uppercase;
+  margin-bottom: 0.7rem;
+}
+.author-name {
+  font-size: 1.9rem;
+  font-weight: 400;
+  color: #111111 !important;
+  margin-bottom: 0.3rem;
+}
+.author-role {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 0.85rem;
+  color: #555555 !important;
+  margin-bottom: 1rem;
+}
+.author-contact {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.82rem;
+  color: #7a5200 !important;
+  line-height: 2.1;
+}
+
+/* ======= HR ======= */
+hr.rule {
+  border: none;
+  border-top: 1px solid #dddddd;
+  margin: 5rem 0;
+}
+
+/* ======= FOOTER ======= */
+.doc-footer {
+  background: #f5f5f5 !important;
+  border-top: 2px solid #b8860b;
+  color: #444444 !important;
+  padding: 2.5rem 6vw;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+}
+.footer-mark {
+  font-size: 1.4rem;
+  font-style: italic;
+  color: #7a5200 !important;
+}
+
+/* ======= ANIMATION ======= */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ======= MOBILE ======= */
+@media (max-width: 640px) {
+  .author-block { grid-template-columns: 1fr; gap: 2rem; }
+  .aiacn-box { padding: 1.8rem; }
+  .layer { padding: 1.8rem; }
+  .layer-num { display: none; }
+  .document { padding: 6vh 5vw; }
+  .pullquote { padding: 1.5rem 1.8rem; }
+  .compare th, .compare td { padding: 0.75rem 0.8rem; font-size: 0.9rem; }
+  .cover-content { padding: 8vh 6vw; }
+}
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-grid"></div>
+  <div class="cover-content">
+    <div class="cover-badge">
+      <span>Global Proposal</span>
+      <span>Open Standard</span>
+      <span>Version 1.0 · 2026</span>
+    </div>
+    <h1 class="cover-title">
+      AI<em>AC</em><br>&amp; AI<em>ACN</em>
+    </h1>
+    <p class="cover-sub">
+      A proposed global standard for Artificial Intelligence Attribution —
+      embedding authorship, accountability, and rights into every piece of AI-generated content.
+    </p>
+    <div class="cover-meta">
+      <div>ARTIFICIAL INTELLIGENCE ATTRIBUTION CERTIFICATE</div>
+      <div>ARTIFICIAL INTELLIGENCE ATTRIBUTION CERTIFICATE NUMBER</div>
+      <div style="margin-top:12px;">
+        <strong>AUTHORED BY PARVEZ SAZZAD M. · HOLYAI · BANGLADESH · 2026</strong>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DOCUMENT -->
+<div class="document">
+
+  <div class="section" id="s0">
+    <div class="sec-label">Preface</div>
+    <div class="pullquote">
+      <p>"My poet mind knows nothing. But love."</p>
+      <cite>— Parvez Sazzad M., on the origin of this proposal</cite>
+    </div>
+    <p>This document was not written by a corporation. It was not commissioned by a government body or funded by a technology conglomerate. It was conceived in a single conversation — by a poet, a founder, and a dreamer from Bangladesh who asked a simple question:</p>
+    <p><em>If an AI creates something, who is responsible for it in the world?</em></p>
+    <p>What follows is a serious answer to that question. A framework. A standard. A proposal for a system that does not yet exist — but must.</p>
+  </div>
+
+  <hr class="rule">
+
+  <div class="section" id="s1">
+    <div class="sec-label">Section 01 — The Problem</div>
+    <h2 class="sec-title">The world is filling with <em>unowned</em> content</h2>
+    <p class="lead">Every day, billions of images, videos, audio files, and written pieces are generated by artificial intelligence. Not one of them carries a verifiable, standardized record of its origin.</p>
+    <p>When a photograph is taken, the EXIF data records the camera, time, and location. When a book is published, an ISBN identifies it globally. When a song is distributed, an ISRC traces it through every platform it touches.</p>
+    <p>When an AI generates an image — nothing. A video — nothing. A voice recording — nothing. The content exists. Its author is invisible. Its origin is unverifiable. Its responsibility belongs to no one.</p>
+    <p>This is not a minor technical gap. It is a fundamental failure of the information infrastructure of our time.</p>
+    <div class="highlight-box">
+      <p>Deepfakes spread without attribution. AI-generated disinformation circulates without accountability. Creators are displaced without credit. Platforms profit without responsibility. And courts have no standard by which to assign liability.</p>
+    </div>
+    <p>The world needs a universal system. Not just a technical tag — a <strong>certificate</strong>. Not just a certificate — a <strong>law</strong>.</p>
+  </div>
+
+  <hr class="rule">
+
+  <div class="section" id="s2">
+    <div class="sec-label">Section 02 — What Already Exists</div>
+    <h2 class="sec-title">The gap that <em>C2PA</em> did not fill</h2>
+    <p class="lead">We acknowledge the work already done. The Coalition for Content Provenance and Authenticity (C2PA) — founded by Adobe, Microsoft, and the BBC — has built a technical standard for embedding provenance data into files.</p>
+    <p>This is meaningful work. It deserves recognition. But it is incomplete — and the gap it leaves is precisely the space this proposal addresses.</p>
+    <table class="compare">
+      <thead>
+        <tr>
+          <th>Dimension</th>
+          <th>C2PA</th>
+          <th>AIAC (This Proposal)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Primary Focus</td><td>Technical provenance</td><td class="hl">Creator rights + legal accountability</td></tr>
+        <tr><td>Governance</td><td>Corporate consortium</td><td class="hl">Open, creator-led, globally inclusive</td></tr>
+        <tr><td>Legal Layer</td><td>None</td><td class="hl">Platform liability when AIACN is absent</td></tr>
+        <tr><td>Global South</td><td>Minimal representation</td><td class="hl">Designed for all markets equally</td></tr>
+        <tr><td>Creator Credit</td><td>Not addressed</td><td class="hl">Central to the framework</td></tr>
+        <tr><td>Public Enforcement</td><td>Voluntary adoption</td><td class="hl">No AIACN = platform liability</td></tr>
+      </tbody>
+    </table>
+    <p>AIAC does not compete with C2PA. It builds upon it — and goes further. Where C2PA protects platforms, AIAC protects <em>people</em>.</p>
+  </div>
+
+  <hr class="rule">
+
+  <div class="section" id="s3">
+    <div class="sec-label">Section 03 — The Proposal</div>
+    <h2 class="sec-title">The <em>AIAC</em> Framework</h2>
+    <p class="lead">We propose the establishment of a global open standard consisting of two interconnected systems: the Artificial Intelligence Attribution Certificate (AIAC) and the Artificial Intelligence Attribution Certificate Number (AIACN).</p>
+    <div class="layers">
+      <div class="layer">
+        <div class="layer-tag">Layer 01 — The Standard</div>
+        <div class="layer-name">The Mark</div>
+        <p class="layer-desc">Every piece of AI-generated content — image, video, audio, text — receives an AIACN at the moment of creation. Embedded invisibly. Readable only by machine. Unforgeable by design. The AI platform that generates the content is responsible for embedding it.</p>
+        <div class="layer-num">1</div>
+      </div>
+      <div class="layer">
+        <div class="layer-tag">Layer 02 — The Verification</div>
+        <div class="layer-name">The Scanner</div>
+        <p class="layer-desc">A universal public checker. Any individual, institution, court, or journalist can submit any piece of content and receive one of two answers: Valid AIACN present — or — No AIACN found. The absence of an AIACN is itself the evidence.</p>
+        <div class="layer-num">2</div>
+      </div>
+      <div class="layer">
+        <div class="layer-tag">Layer 03 — The Law</div>
+        <div class="layer-name">The Consequence</div>
+        <p class="layer-desc">If a platform generates and distributes AI content without an embedded AIACN, that platform assumes full legal liability for any harm caused by that content. No AIACN means no protection. No AIACN means the platform is the author of whatever follows.</p>
+        <div class="layer-num">3</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="rule">
+
+  <div class="section" id="s4">
+    <div class="sec-label">Section 04 — The Number</div>
+    <h2 class="sec-title">What lives inside <em>every file</em></h2>
+    <p class="lead">The AIACN is a machine-readable, cryptographically unique identifier embedded at the moment of AI content generation. Invisible to the human eye. Permanent. Verifiable.</p>
+    <div class="aiacn-box">
+      <div class="aiacn-label">Sample AIACN Structure</div>
+      <div class="aiacn-number">AIACN · 20260322 · GPT5 · OPENAI · BD · img · 7f3a9c2e1b84d056f2a3c7</div>
+      <div class="aiacn-fields">
+        <div class="aiacn-field">
+          <div class="aiacn-field-label">Date Generated</div>
+          <div class="aiacn-field-value">2026-03-22</div>
+        </div>
+        <div class="aiacn-field">
+          <div class="aiacn-field-label">AI Model</div>
+          <div class="aiacn-field-value">GPT-5 / Claude / Midjourney</div>
+        </div>
+        <div class="aiacn-field">
+          <div class="aiacn-field-label">Platform</div>
+          <div class="aiacn-field-value">OpenAI / Anthropic / etc.</div>
+        </div>
+        <div class="aiacn-field">
+          <div class="aiacn-field-label">Origin Region</div>
+          <div class="aiacn-field-value">BD / US / EU</div>
+        </div>
+        <div class="aiacn-field">
+          <div class="aiacn-field-label">Content Type</div>
+          <div class="aiacn-field-value">img / vid / aud / txt</div>
+        </div>
+        <div class="aiacn-field">
+          <div class="aiacn-field-label">Unique Hash</div>
+          <div class="aiacn-field-value">7f3a9c2e1b84d056f2a3</div>
+        </div>
+      </div>
+    </div>
+    <p>The AIACN is not a visible watermark. It is a structural truth embedded in the file itself — the way DNA is embedded in a living cell. It travels with the content wherever the content goes. It cannot be removed without destroying the file's integrity. It can be verified by anyone with access to the AIAC public checker.</p>
+  </div>
+
+  <hr class="rule">
+
+  <div class="section" id="s5">
+    <div class="sec-label">Section 05 — The Ask</div>
+    <h2 class="sec-title">The doors we are <em>knocking on</em></h2>
+    <p class="lead">This proposal is addressed to every organization, company, government body, and individual who generates, distributes, or regulates AI-generated content. We ask three things: validate, adopt, legislate.</p>
+    <div class="doors">
+      <div class="door">
+        <div class="door-tier">Tier 1 — Validators</div>
+        <div class="door-title">AI Platforms</div>
+        <p class="door-desc">Adobe, OpenAI, Anthropic, Google DeepMind, Meta AI, Stability AI, Midjourney — embed AIACN at generation.</p>
+      </div>
+      <div class="door">
+        <div class="door-tier">Tier 2 — Enforcers</div>
+        <div class="door-title">Policy Bodies</div>
+        <p class="door-desc">UNESCO, UN ITU, EU AI Act committee, national ICT ministries — legislate AIACN as a legal requirement.</p>
+      </div>
+      <div class="door">
+        <div class="door-tier">Tier 3 — Champions</div>
+        <div class="door-title">Creators & Press</div>
+        <p class="door-desc">Journalists, artists, musicians, filmmakers, open-source communities — demand AIACN as a fundamental right.</p>
+      </div>
+      <div class="door">
+        <div class="door-tier">Tier 4 — Home Ground</div>
+        <div class="door-title">Bangladesh First</div>
+        <p class="door-desc">ICT Division Bangladesh, a2i, BASIS — become the first nation to formally endorse and pilot the AIAC framework.</p>
+      </div>
+    </div>
+    <div class="pullquote">
+      <p>We are not asking the world to trust us. We are asking the world to trust the system — a system that works the same way in Dhaka as it does in San Francisco.</p>
+    </div>
+  </div>
+
+  <hr class="rule">
+
+  <div class="section" id="s6">
+    <div class="sec-label">Section 06 — Origin</div>
+    <h2 class="sec-title">Where this <em>began</em></h2>
+    <p>This framework was conceived independently of any corporate or institutional agenda. It emerged from a single question about authorship, accountability, and the rights of creators in a world increasingly shaped by artificial intelligence.</p>
+    <p>It was conceived in Bangladesh — a country not typically at the center of global technology policy conversations. That is precisely why it matters that it came from here. The voices most affected by unattributed AI content are not in Silicon Valley. They are everywhere else.</p>
+    <p>This document is the first public articulation of the AIAC and AIACN framework. It is published openly, permanently, and freely — so that no corporation may claim ownership of the standard, and no government may restrict its adoption.</p>
+    <p>It belongs to everyone. It was authored by one.</p>
+  </div>
+
+  <hr class="rule">
+
+  <div class="section" id="s7">
+    <div class="author-block">
+      <div>
+        <div class="author-label">Conceived & Authored By</div>
+        <div class="author-name">Parvez Sazzad M.</div>
+        <div class="author-role">Founder, HolyAI · Poet · Bangladesh</div>
+        <div class="author-contact">
+          holyaidev@gmail.com<br>
+          holyai.dev<br>
+          Bangladesh · 2026
+        </div>
+      </div>
+      <div>
+        <div class="author-label">Published Under</div>
+        <div class="author-name">HolyAI</div>
+        <div class="author-role">Reshaping Us · AI Research & Advocacy</div>
+        <div class="author-contact">
+          Released under<br>
+          Creative Commons CC BY 4.0<br>
+          Free to share · Attribution required
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer class="doc-footer">
+  <div class="footer-mark">AIAC · AIACN</div>
+  <div>PARVEZ SAZZAD M. · HOLYAI · BANGLADESH · 2026</div>
+  <div>CC BY 4.0 · OPEN STANDARD PROPOSAL</div>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.section').forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>
